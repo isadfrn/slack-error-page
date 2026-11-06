@@ -1,0 +1,248 @@
+/* ---------- Page structure ---------- */
+
+#page {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Header ---------- */
+
+#header {
+  position: relative;
+  z-index: 20;
+  flex: 0 0 47px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 18px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.header__nav {
+  display: flex;
+  gap: 8px;
+}
+
+.header__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 46px;
+  padding: 3px 4px;
+  border-radius: 4px;
+  color: #868686;
+  font-size: 10px;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.header__item:hover {
+  color: #4a154b;
+}
+
+.header__item:focus-visible {
+  outline: 2px solid #1d9bd1;
+}
+
+/* ---------- Scene ---------- */
+
+#page_contents {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  touch-action: none;
+}
+
+/*
+ * The whole scene lives in a 6000x1000 space (the size of the background).
+ * JS sets --k (scale, so it covers the strip) and --tx (horizontal pan, driven
+ * by the mouse). Background and sprites share the same transform, so they always
+ * stay aligned.
+ */
+#content {
+  --k: 0.55;
+  --tx: 0px;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #bfe6ee;
+}
+
+#background,
+#sprite-wrapper {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 6000px;
+  height: 1000px;
+  max-width: none;
+  transform: translate3d(var(--tx), 0, 0) scale(var(--k));
+  transform-origin: 0 100%;
+}
+
+#background {
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+#sprite-wrapper {
+  pointer-events: none;
+}
+
+#preload {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+
+/* ---------- Sprites ---------- */
+
+.actor {
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-origin: 50% 100%;
+  will-change: transform;
+}
+
+.actor.is-clickable {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Every animation has its own layer; switching is just toggling visibility */
+.flip {
+  position: relative;
+}
+
+.sprite {
+  position: absolute;
+  inset: 0;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+}
+
+.sprite.is-off {
+  visibility: hidden;
+}
+
+/* ---------- Message card ---------- */
+
+.card {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: min(380px, calc(100% - 32px));
+  padding: 16px 22px 20px;
+  border-radius: 3px;
+  /* slightly translucent, so the scenery shows through */
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.35),
+    0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.card__code {
+  margin: 0 0 4px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9a9a9a;
+}
+
+.card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.card__icon {
+  flex: none;
+}
+
+.card h1 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #555;
+}
+
+.card p:not(.card__code) {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #707070;
+  white-space: pre-line;
+}
+
+.card a {
+  color: #1264a3;
+}
+
+.card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.card__actions[hidden],
+.card__code[hidden] {
+  display: none;
+}
+
+.btn {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 14px;
+  border: 1px solid #b5b5b5;
+  border-radius: 4px;
+  background: #fff;
+  color: #444;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s;
+}
+
+.btn:hover {
+  background: #f6f6f6;
+}
+
+.btn--primary {
+  border-color: #611f69;
+  background: #611f69;
+  color: #fff;
+}
+
+.btn--primary:hover {
+  border-color: #4a154b;
+  background: #4a154b;
+}
+
+.btn:focus-visible {
+  outline: 3px solid #1d9bd1;
+  outline-offset: 2px;
+}

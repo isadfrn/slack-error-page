@@ -26,7 +26,7 @@ The goal is to practice building static interfaces, organizing styles, and posit
 .
 |-- assets/       # Page images and sprites
 |-- css/          # Base and layout styles
-|-- js/           # Page scripts
+|-- js/           # Page scripts (main.js: scene/animations, messages.js: error messages)
 |-- index.html    # Main page
 |-- LICENSE
 `-- README.md
@@ -41,6 +41,22 @@ You can also use a simple local server if you prefer:
 ```bash
 npx serve .
 ```
+
+## Behavior
+
+- **Horizontal parallax:** the background (`marrakesh-meadow-80.jpg`, 6000x1000) is wider than the screen. Moving the mouse to the left or right edge pans the scene all the way to the end of the image (arrow keys work too).
+- **Animals:** chickens, pigs and butterflies walk/fly across the whole image. When one leaves the image on one side, it reappears on the other. Click a chicken to make it fly.
+- Respects `prefers-reduced-motion` (static scene).
+
+## Error Messages
+
+The message card is chosen through the query string. All messages live in `js/messages.js`:
+
+| Parameter | Values | Default |
+| --------- | ------ | ------- |
+| `code`    | `400`, `401`, `403`, `404`, `408`, `410`, `429`, `500`, `502`, `503`, `504` | "You've found a Glitch!" |
+
+Example: `index.html?code=404`
 
 ## License
 
